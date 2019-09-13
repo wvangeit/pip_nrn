@@ -1,0 +1,5 @@
+nrn.egg-info/
+dist/
+.python-version
+/test
+/run.sh
