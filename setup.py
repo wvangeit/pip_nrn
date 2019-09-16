@@ -7,7 +7,7 @@ import tarfile
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
-import wget
+import urllib.request
 
 NRN_SHORT_VERSION = '7.6'
 NRN_LONG_VERSION = '7.6.7'
@@ -33,8 +33,6 @@ class build_ext(build_ext_orig):
         super().run()
 
     def build_nrn(self, ext):
-        # cwd = pathlib.Path().absolute()
-
         build_temp = pathlib.Path(self.build_temp)
         build_temp.mkdir(parents=True, exist_ok=True)
 
@@ -50,7 +48,7 @@ class build_ext(build_ext_orig):
         setup_args = ['--prefix=%s' % sys.prefix]
 
         with cd(str(build_temp)):
-            wget.download(NRN_TARBALL_URL)
+            urllib.request.urlretrieve(NRN_TARBALL_URL, NRN_TARBALL)
             tarfile.open(NRN_TARBALL, 'r:gz').extractall()
             configure_cmd = os.path.join(
                 'nrn-%s' %
@@ -75,7 +73,7 @@ def cd(dir_name):
 
 setup(
     name='nrn',
-    version='0.1',
+    version='0.2.1',
     packages=['nrn'],
     install_requires=['wget'],
     ext_modules=[NrnExtension('nrn')],
