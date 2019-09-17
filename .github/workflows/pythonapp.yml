@@ -19,3 +19,6 @@ jobs:
     - name: Test install
       run: |
         pip -v install .
+    - name: Test import
+      run: |
+        python -c 'import neuron; soma=neuron.h.Section()'
