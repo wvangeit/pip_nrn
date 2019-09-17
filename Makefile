@@ -4,5 +4,5 @@ clean:
 twine: clean
 	python setup.py sdist
 	twine upload dist/*
-install:
-	
+install: clean
+	pip -v install . --upgrade	
