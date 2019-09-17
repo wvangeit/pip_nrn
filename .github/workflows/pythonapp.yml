@@ -22,3 +22,6 @@ jobs:
     - name: Test import
       run: |
         python -c 'import neuron; soma=neuron.h.Section()'
+    - name: Test nrnivmodl
+      run: |
+        nrnivmodl
