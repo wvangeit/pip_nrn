@@ -1,6 +1,5 @@
 import os
 import sys
-import pathlib
 import contextlib
 import tarfile
 
@@ -33,8 +32,7 @@ class build_ext(build_ext_orig):
         super().run()
 
     def build_nrn(self, ext):
-        build_temp = pathlib.Path(self.build_temp)
-        build_temp.mkdir(parents=True, exist_ok=True)
+        os.makedirs(self.build_temp)
 
         configure_args = [
             '--without-x',
@@ -43,11 +41,12 @@ class build_ext(build_ext_orig):
             '--exec-prefix=%s' %
             sys.prefix,
             '--with-nrnpython=python',
+            '--disable-pysetup',
             '--disable-rx3d']
         make_args = ['-j', 'install']
         setup_args = ['--prefix=%s' % sys.prefix]
 
-        with cd(str(build_temp)):
+        with cd(self.build_temp):
             urllib.request.urlretrieve(NRN_TARBALL_URL, NRN_TARBALL)
             tarfile.open(NRN_TARBALL, 'r:gz').extractall()
             configure_cmd = os.path.join(
@@ -73,7 +72,7 @@ def cd(dir_name):
 
 setup(
     name='nrn',
-    version='0.2.1',
+    version='0.2.2',
     packages=['nrn'],
     install_requires=['wget'],
     ext_modules=[NrnExtension('nrn')],
