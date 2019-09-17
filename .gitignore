@@ -4,3 +4,4 @@ dist/
 /test
 /run.sh
 /.tox
+__pycache__
