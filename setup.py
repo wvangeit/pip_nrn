@@ -6,7 +6,12 @@ import tarfile
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
-import urllib.request
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
+
+VERSION = '0.2.3'
 
 NRN_SHORT_VERSION = '7.6'
 NRN_LONG_VERSION = '7.6.7'
@@ -18,10 +23,10 @@ NRN_TARBALL_URL = \
 NRN_TARBALL = 'nrn-%s.tar.gz' % NRN_LONG_VERSION
 
 
-class NrnExtension(Extension):
+class NrnExtension(Extension, object):
 
     def __init__(self, name):
-        super().__init__(name, sources=[])
+        super(NrnExtension, self).__init__(name, sources=[])
 
 
 class build_ext(build_ext_orig):
@@ -47,7 +52,7 @@ class build_ext(build_ext_orig):
         setup_args = ['--prefix=%s' % sys.prefix]
 
         with cd(self.build_temp):
-            urllib.request.urlretrieve(NRN_TARBALL_URL, NRN_TARBALL)
+            urlretrieve(NRN_TARBALL_URL, NRN_TARBALL)
             tarfile.open(NRN_TARBALL, 'r:gz').extractall()
             configure_cmd = os.path.join(
                 'nrn-%s' %
@@ -72,7 +77,7 @@ def cd(dir_name):
 
 setup(
     name='nrn',
-    version='0.2.2',
+    version=VERSION,
     packages=['nrn'],
     install_requires=['wget'],
     ext_modules=[NrnExtension('nrn')],
