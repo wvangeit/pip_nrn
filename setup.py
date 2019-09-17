@@ -79,7 +79,7 @@ setup(
     name='nrn',
     version=VERSION,
     packages=['nrn'],
-    install_requires=['wget'],
+    install_requires=[],
     ext_modules=[NrnExtension('nrn')],
     cmdclass={
         'build_ext': build_ext,
