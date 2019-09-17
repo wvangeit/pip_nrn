@@ -24,4 +24,4 @@ jobs:
         python -c 'import neuron; soma=neuron.h.Section()'
     - name: Test nrnivmodl
       run: |
-        nrnivmodl
+        which nrnivmodl
