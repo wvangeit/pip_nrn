@@ -11,7 +11,7 @@ try:
 except ImportError:
     from urllib import urlretrieve
 
-VERSION = '0.2.5'
+VERSION = '0.2.6'
 
 NRN_SHORT_VERSION = '7.6'
 NRN_LONG_VERSION = '7.6.7'
@@ -34,7 +34,7 @@ class build_ext(build_ext_orig, object):
     def run(self):
         for ext in self.extensions:
             self.build_nrn(ext)
-        super(NrnExtension, self).run()
+        super(build_ext, self).run()
 
     def build_nrn(self, ext):
         os.makedirs(self.build_temp)
