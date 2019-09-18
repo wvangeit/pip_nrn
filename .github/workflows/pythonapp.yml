@@ -33,7 +33,9 @@ jobs:
       run: |
         python setup.py sdist
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        user: __token__
-        password: ${{ secrets.pypi_password }}
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.pypi_password }}
+      run: |
+        twine upload dist/*
+      
