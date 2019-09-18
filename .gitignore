@@ -5,3 +5,4 @@ dist/
 /run.sh
 /.tox
 __pycache__
+*.pyc
