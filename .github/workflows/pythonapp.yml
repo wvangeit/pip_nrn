@@ -40,7 +40,6 @@ jobs:
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.pypi_password }}
-      if: github.ref == 'master'
+      if: github.ref == 'refs/heads/master'
       run: |
         twine upload --skip-existing dist/*
-      
