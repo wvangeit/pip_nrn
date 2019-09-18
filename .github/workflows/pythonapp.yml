@@ -29,6 +29,9 @@ jobs:
     - name: Test nrnivmodl
       run: |
         which nrnivmodl
+    - name: Build package
+      run: |
+        python setup.py sdist
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@master
       with:
