@@ -6,6 +6,8 @@ import tarfile
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
+import versioneer
+
 try:
     from urllib.request import urlretrieve
 except ImportError:
@@ -78,7 +80,7 @@ def cd(dir_name):
 
 setup(
     name='nrn',
-    version=VERSION,
+    version=versioneer.get_version(),
     packages=['nrn'],
     install_requires=[],
     ext_modules=[NrnExtension('nrn')],
