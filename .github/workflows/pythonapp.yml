@@ -1,6 +1,10 @@
 name: Tests
 
-on: [push]
+on: 
+    push:
+    schedule:
+        - cron: '* * */1 * *'
+
 
 jobs:
   build:
