@@ -4,6 +4,6 @@ clean:
 twine: clean
 	python setup.py sdist
 	pip install twine
-	twine upload dist/*
+	twine upload --skip-existing dist/*
 install: clean
 	pip -v install . --upgrade	
