@@ -1,31 +1,37 @@
-name: Tests
+- name: Tests
+  on: [push]
+  jobs:
+    build:
 
-on: [push]
+      runs-on: ubuntu-latest
+      strategy:
+        max-parallel: 4
+        matrix:
+          python-version: [2.7, 3.6, 3.7]
 
-jobs:
-  build:
+      steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade twine
+      - name: Test install
+        run: |
+          pip -v install .
+      - name: Test import
+        run: |
+          python -c 'import neuron; soma=neuron.h.Section()'
+      - name: Test nrnivmodl
+        run: |
+          which nrnivmodl
 
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [2.7, 3.6, 3.7]
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-    - name: Test install
-      run: |
-        pip -v install .
-    - name: Test import
-      run: |
-        python -c 'import neuron; soma=neuron.h.Section()'
-    - name: Test nrnivmodl
-      run: |
-        which nrnivmodl
+- name: Publish package
+  on: [push]
+  uses: pypa/gh-action-pypi-publish@master
+  with:
+    user: __token__
+    password: ${{ secrets.pypi_password }}
