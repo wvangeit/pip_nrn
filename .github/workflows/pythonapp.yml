@@ -30,7 +30,6 @@ jobs:
       run: |
         which nrnivmodl
     - name: Publish package
-      on: [push]
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
