@@ -45,7 +45,7 @@ class build_ext(build_ext_orig, object):
             sys.prefix,
             '--exec-prefix=%s' %
             sys.prefix,
-            '--with-nrnpython=python',
+            '--with-nrnpython=%s' % sys.executable,
             '--disable-pysetup',
             '--disable-rx3d']
         make_args = ['-j', 'install']
@@ -60,8 +60,9 @@ class build_ext(build_ext_orig, object):
             self.spawn([configure_cmd] + configure_args)
             make_cmd = os.path.join('make')
             self.spawn([make_cmd] + make_args)
-            with cd('src/nrnpython'):
-                self.spawn(['python', 'setup.py', 'install'] + setup_args)
+            with cd(os.path.join('src', 'nrnpython')):
+                self.spawn([sys.executable, 'setup.py',
+                            'install'] + setup_args)
 
 
 @contextlib.contextmanager
