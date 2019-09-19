@@ -24,9 +24,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install --upgrade twine
+    - name: Test source package build
+      run: |
+        python setup.py sdist
     - name: Test install
       run: |
-        pip -v install .
+        python -v pip install dist/nrn-*
     - name: Test import
       run: |
         python -c 'import neuron; soma=neuron.h.Section()'
