@@ -37,13 +37,10 @@ jobs:
     - name: Test nrnivmodl
       run: |
         which nrnivmodl
-    - name: Build package
-      run: |
-        python setup.py sdist
     - name: Publish package
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.pypi_password }}
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master' && matrix.python-version == 3.7
       run: |
         twine upload --skip-existing dist/*
